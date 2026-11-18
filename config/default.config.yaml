@@ -1,0 +1,90 @@
+# Minecraft MCP Mineflayer Configuration
+# This file contains the default configuration values.
+# You can override any of these values by creating a config.yaml file.
+
+# Server settings
+server:
+  name: minecraft-mcp-mineflayer
+  version: 2.0.0
+
+# Bot settings
+bot:
+  # Default connection settings
+  defaults:
+    host: localhost
+    port: 25565
+
+  # Auto-eat configuration
+  autoEat:
+    enabled: true
+    minHunger: 15
+    priority: foodPoints  # foodPoints or saturation
+
+  # Self-defense configuration
+  selfDefense:
+    enabled: true
+    durationMs: 10000
+    hostileMobs:
+      - zombie
+      - skeleton
+      - creeper
+      - spider
+      - witch
+      - drowned
+      - husk
+      - stray
+      - pillager
+      - vindicator
+      - ravager
+      - guardian
+      - elder_guardian
+      - phantom
+      - slime
+      - magma_cube
+      - hoglin
+      - zoglin
+      - blaze
+      - ghast
+      - warden
+      - evoker
+
+  # Auto-shield configuration
+  autoShield:
+    enabled: true
+    durationMs: 800
+
+# Navigation settings
+navigation:
+  allowParkour: false
+  allowSprinting: true
+  canDig: true
+  maxDropDown: 3
+  liquidCost: 25
+  unstuckTimeoutMs: 15000
+
+# Operation timeouts (in milliseconds)
+timeouts:
+  navigation: 60000
+  navigationStall: 15000
+  mining: 120000
+  combat: 60000
+  crafting: 30000
+  smelting: 90000
+  collect: 30000
+  stallDetection: 20000
+
+# Mining settings
+mining:
+  clusterMining: true
+  maxClusterSize: 64
+  requireToolCheck: true
+
+# Farming settings
+farming:
+  autoReplant: true
+  hydrationRadius: 4
+
+# Logging settings
+logging:
+  level: info  # debug, info, warn, error
+  format: text  # text or json

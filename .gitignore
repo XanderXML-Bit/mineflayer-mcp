@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build
+/dist/
+
+# Test coverage
+coverage/
+
+# Env
+.env
+.env.local
+
+# IDE/OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Runtime data
+data/
+test-data/
+todos/

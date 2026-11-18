@@ -1,0 +1,68 @@
+# Example User Configuration for Minecraft MCP
+# Copy this file to config.yaml and customize as needed.
+# Values here override the defaults in default.config.yaml
+
+# Bot settings
+bot:
+  defaults:
+    host: localhost       # Minecraft server host
+    port: 25565           # Minecraft server port
+    # version: "1.20.4"   # Uncomment to lock to specific MC version
+
+  # Auto-eat when hunger drops
+  autoEat:
+    enabled: true
+    minHunger: 15         # Eat when hunger <= this value (max 20)
+    priority: foodPoints  # foodPoints or saturation
+
+  # Auto-defend against hostile mobs
+  selfDefense:
+    enabled: true
+    durationMs: 10000     # How long to fight back (ms)
+
+  # Auto-shield when attacked
+  autoShield:
+    enabled: true
+    durationMs: 800       # Shield raise duration (ms)
+
+# Navigation settings
+navigation:
+  allowParkour: false     # Allow risky parkour moves
+  allowSprinting: true    # Use sprint for faster travel
+  canDig: true            # Dig through obstacles
+  maxDropDown: 3          # Max blocks to fall
+  liquidCost: 25          # Pathfinding cost for water/lava
+
+# Operation timeouts (milliseconds)
+timeouts:
+  navigation: 60000       # 1 minute for navigation
+  mining: 120000          # 2 minutes for mining tasks
+  combat: 60000           # 1 minute for combat
+  crafting: 30000         # 30 seconds for crafting
+  smelting: 90000         # 90 seconds for smelting
+
+# Mining settings
+mining:
+  clusterMining: true     # Mine adjacent ore blocks
+  maxClusterSize: 64      # Max blocks in one cluster
+  requireToolCheck: true  # Check for proper tool before mining
+
+# Farming settings
+farming:
+  autoReplant: true       # Replant after harvesting
+  hydrationRadius: 4      # Water distance for farmland
+
+# Logging (useful for debugging)
+logging:
+  level: info             # debug, info, warn, error
+  format: text            # text or json
+
+# AI Learning System Configuration (optional)
+# These paths are relative to the data/ directory
+# skills:
+#   storagePath: skills.json
+#   autoSavePrimitives: true
+#
+# reflection:
+#   storagePath: reflections.json
+#   maxOutcomes: 1000
