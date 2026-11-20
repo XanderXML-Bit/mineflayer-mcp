@@ -61,7 +61,8 @@ Add this entry to your client's MCP configuration. Replace the absolute path wit
 ```
 
 You can also start the stdio server with `npm start`.
-The packaged `bin/cli.js` launcher is not release-ready. Use the compiled entry point above.
+After building, the CLI also works from the clone with `node bin/cli.js`.
+If you create a tarball with `npm pack` and install it locally, npm provides the `minecraft-mcp-mineflayer` command.
 
 Configure defaults in `config/default.config.yaml` or `config.yaml` in your working directory.
 Environment overrides include `MCP_BOT_HOST`, `MCP_BOT_PORT`, and `MCP_LOG_LEVEL`.
@@ -91,7 +92,6 @@ Live gameplay across Minecraft versions is not part of the offline CI checks.
 ![Browser-rendered capture of the compiled server output: 94 tools listed over local stdio, without connecting to Minecraft](docs/mcp-smoke.png)
 
 This image renders the actual local MCP handshake output, not a gameplay screenshot.
-The server reports version `2.0.0`, while `package.json` declares `1.0.0`. Reconcile that difference before release.
 Run `node scripts/smoke.mjs` after building to reproduce the check.
 
 ## Run the checks

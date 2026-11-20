@@ -1,6 +1,6 @@
 {
   "name": "minecraft-mcp-mineflayer",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "An MCP for AI Agents to use to operate and play in minecraft",
   "type": "module",
   "main": "dist/index.js",
