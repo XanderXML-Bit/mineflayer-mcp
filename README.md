@@ -34,7 +34,7 @@ npm run build
 node scripts/smoke.mjs
 ```
 
-The smoke check starts the compiled server and lists its tools over standard input and output (stdio). It checks the tool count and fails on registration warnings. It runs without a Minecraft connection.
+The smoke check starts the compiled server and lists its tools over standard input and output (stdio). It checks that the tool names and count match the table below and fails on registration warnings. It runs without a Minecraft connection.
 
 ![MCP smoke output showing server version 2.0.0, 126 registered tools, zero registration failures, and the first eight tool names](docs/mcp-smoke.png)
 
@@ -204,7 +204,7 @@ npm run typecheck
 npm test
 ```
 
-The offline Vitest suite has 1,259 tests across 57 files. It covers configuration, bot services, and local integration workflows with mocked bots. The type check also covers the chat and whisper response types.
+The offline Vitest suite has 1,265 tests across 57 files. It covers configuration, bot services, and local integration workflows with mocked bots. The type check also covers the chat and whisper response types.
 
 The [CI workflow](.github/workflows/ci.yml) runs these checks, builds the project, and checks the MCP handshake and tool registration. Live Minecraft gameplay requires a separate server test.
 

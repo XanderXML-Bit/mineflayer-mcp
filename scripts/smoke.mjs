@@ -1,3 +1,5 @@
+import { deepStrictEqual } from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 
@@ -32,6 +34,29 @@ if (registrationFailures.length > 0) {
 if (result.tools.length !== expectedToolCount) {
   throw new Error(`Expected ${expectedToolCount} tools, received ${result.tools.length}`);
 }
+
+const readme = await readFile(new URL('../README.md', import.meta.url), 'utf8');
+const toolsSection = readme.split(/^## /m).find((section) => /^Tools\r?\n/.test(section));
+const toolTable = toolsSection?.split(/\r?\n[ \t]*\r?\n/).find((block) =>
+  /^\| Tool \| Purpose \|\r?\n\| --- \| --- \|(?:\r?\n|$)/.test(block)
+);
+if (!toolTable) {
+  throw new Error('Could not find the tool table under "## Tools" in README.md.');
+}
+
+const documentedNames = toolTable.trimEnd().split(/\r?\n/).slice(2).map((row) => {
+  const name = row.match(/^\|\s*`([^`]+)`\s*\|/)?.[1];
+  if (!name) {
+    throw new Error(`Invalid tool row in README.md: ${row}`);
+  }
+  return name;
+});
+const registeredNames = result.tools.map((tool) => tool.name);
+deepStrictEqual(
+  registeredNames.sort(),
+  documentedNames.sort(),
+  `MCP tools/list (${registeredNames.length} tools) differs from README.md (${documentedNames.length} rows).`
+);
 
 console.log(JSON.stringify({
   server: client.getServerVersion(),

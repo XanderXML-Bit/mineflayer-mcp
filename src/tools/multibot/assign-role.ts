@@ -12,7 +12,7 @@ const InputSchema = BaseInputSchema.extend({
   botName: z.string().describe('Name of the bot to assign role to'),
   role: z.enum(['leader', 'miner', 'builder', 'farmer', 'guard', 'scout', 'follower'])
     .describe('Role to assign'),
-  priority: z.number().optional().default(1).describe('Priority level (1-10)'),
+  priority: z.number().int().min(1).max(10).optional().default(1).describe('Priority level (1-10)'),
 });
 
 type Input = z.infer<typeof InputSchema>;
