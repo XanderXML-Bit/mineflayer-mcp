@@ -10,7 +10,8 @@ import { withTask } from '../../services/task.service.js';
 import { configureMovements } from '../../services/navigation.service.js';
 import mcData from 'minecraft-data';
 import { Vec3 } from 'vec3';
-import { goals } from 'mineflayer-pathfinder';
+import pathfinderPkg from 'mineflayer-pathfinder';
+const { goals } = pathfinderPkg;
 
 /** Block properties that include age for crops */
 interface CropBlockProperties {

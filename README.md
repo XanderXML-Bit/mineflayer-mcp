@@ -34,9 +34,9 @@ npm run build
 node scripts/smoke.mjs
 ```
 
-The smoke check starts the compiled server and lists its tools over standard input and output (stdio). It runs without a Minecraft connection.
+The smoke check starts the compiled server and lists its tools over standard input and output (stdio). It checks the tool count and fails on registration warnings. It runs without a Minecraft connection.
 
-![MCP smoke output showing server version 2.0.0, 94 registered tools, and the first eight tool names](docs/mcp-smoke.png)
+![MCP smoke output showing server version 2.0.0, 126 registered tools, zero registration failures, and the first eight tool names](docs/mcp-smoke.png)
 
 ## Connect an MCP client
 
@@ -59,17 +59,24 @@ The server looks for YAML configuration relative to its working directory. It tr
 
 ## Tools
 
-The compiled server returns 94 tools in the MCP `tools/list` response on Node.js 22.23.3. Use that response to inspect the input schema for each tool.
-
-On the pinned runtime, ten tool groups fail to register. The startup logs report that the CommonJS `mineflayer-pathfinder` package does not expose `goals` as a named export.
+The compiled server returns 126 tools in the MCP `tools/list` response on Node.js 22.23.3. Use that response to inspect the input schema for each tool.
 
 | Tool | Purpose |
 | --- | --- |
 | `addGoal` | Create a new goal to track progress. |
+| `addToBrewingStand` | Add potions or water bottles to a brewing stand. |
+| `assignBotRole` | Assign a role to a bot in the team. |
+| `autoFarm` | Automatically harvest and replant crops in an area. |
+| `autoMine` | Automatically mine a specified resource in the area. |
+| `breedAnimals` | Breed two animals of the same type. |
+| `brewPotion` | Add an ingredient to a brewing stand and optionally wait for completion. |
+| `buildNetherPortal` | Build a Nether portal frame at the bot's current location. |
+| `buildSomething` | Build with creative-mode commands or place blocks in survival mode. |
 | `buildTemplate` | Build a structure from a predefined template. |
 | `checkRequirements` | Check crafting requirements for an item. |
 | `checkSupplies` | Check resource status including tool durability, food supply, and materials. |
 | `checkTemplateMaterials` | Check what materials are needed to build a template. |
+| `combineEnchantments` | Combine two items at an anvil to merge enchantments. |
 | `completeGoal` | Complete, fail, or delete a tracked goal. |
 | `configureAutoDefense` | Configure automatic responses to attacks and nearby hostile mobs. |
 | `cookItem` | Cook food items. |
@@ -82,16 +89,22 @@ On the pinned runtime, ten tool groups fail to register. The startup logs report
 | `digBlock` | Dig a block at a specific position. |
 | `dropItem` | Drop items from inventory. |
 | `eatFood` | Eat food to restore hunger. |
+| `enchantItem` | Enchant an item using a nearby enchanting table. |
 | `equipItem` | Equip an item from inventory to a slot. |
 | `exploreArea` | Explore in a direction, marking chunks as explored and optionally discovering points of interest. |
+| `findAnimals` | Find animals within a radius. |
 | `findBiome` | Search for a specific biome type in the area. |
 | `findBlock` | Find the nearest block of a specific type. |
+| `findEndCity` | Search for End cities. |
 | `findEntity` | Find the nearest entity, optionally filtering by name or type. |
 | `findItemInStorage` | Search indexed storage containers for an item. |
 | `findPOI` | Find, add, or list saved points of interest. |
+| `findPortal` | Find nearby Nether or End portals. |
+| `findVillager` | Find villagers by profession within a radius. |
 | `fish` | Start fishing in nearby water. |
 | `followPlayer` | Continuously follow a player. |
 | `forget` | Delete a specific memory by key. |
+| `formUp` | Gather all bots at a location in formation. |
 | `gatherSeeds` | Break grass to gather wheat seeds. |
 | `getCurrentBiome` | Get information about the biome at current location. |
 | `getEvents` | Read recent bot events, including damage, chat, and pickups. |
@@ -104,12 +117,14 @@ On the pinned runtime, ten tool groups fail to register. The startup logs report
 | `getSkills` | Search for relevant skills by query, tags, or category. |
 | `getSkillStats` | Summarize the skills in the library and how often they are used. |
 | `getStorageSummary` | Summarize indexed locations, stored items, and recently scanned containers. |
+| `getTeamStatus` | Show the status of all active bots on the team. |
 | `getWorldState` | Inspect time, weather, biome, dimension, light level, and nearby danger. |
 | `giveItemToSomeone` | Give an item to another player. |
 | `goHome` | Navigate to a saved home location. |
 | `goToKnownLocation` | Navigate to specific coordinates in the world. |
 | `goToSomeone` | Navigate to another player in the game. |
 | `goToSurface` | Move toward the surface, digging if needed. |
+| `guardArea` | Patrol and defend an area from hostile mobs. |
 | `harvestMatureCrops` | Harvest mature crops and optionally replant. |
 | `indexNearbyStorage` | Scan and index nearby chests, barrels, and other storage containers. |
 | `joinGame` | Connect a new bot to a Minecraft server. |
@@ -118,11 +133,14 @@ On the pinned runtime, ten tool groups fail to register. The startup logs report
 | `leaveGame` | Disconnect one bot or all bots. |
 | `listAllRecipes` | List all available recipes with filters. |
 | `listBiomes` | List biome types and their characteristics. |
+| `listBrewingRecipes` | List brewing recipes for potions. |
 | `listBuildingTemplates` | List available building templates. |
+| `listEnchantments` | List possible enchantments for an item and nearby enchanting setup. |
 | `listGoals` | List all goals with status and progress. |
 | `listInventory` | List items in the bot inventory. |
 | `listMemories` | List all stored memories. |
 | `listRecipes` | List recipes for a specific item. |
+| `listTrades` | List available trades from a villager. |
 | `lookAround` | Return a deprecation notice directing clients to `scanArea`. |
 | `lookAt` | Make the bot look at specific coordinates. |
 | `mineResource` | Mine blocks by name, with support for clusters. |
@@ -131,15 +149,21 @@ On the pinned runtime, ten tool groups fail to register. The startup logs report
 | `openNearbyChest` | Open a nearby chest and list its contents. |
 | `pickupItem` | Pick up a dropped item entity near the bot. |
 | `pickupLootWithinRadius` | Collect dropped items within a radius. |
+| `placeBlockAt` | Place a block at specific coordinates. |
+| `placeItemNearYou` | Place an item at the nearest valid spot to the bot. |
 | `planGoal` | Plan the Minecraft prerequisites and actions for a goal. |
 | `plantSeedsWithinRadius` | Plant seeds on farmland within a radius. |
+| `prepareLandForFarming` | Till dirt or grass blocks with a hoe to create farmland. |
 | `readChat` | Read recent chat messages from the server. |
 | `recall` | Retrieve a specific memory by key. |
 | `recordOutcome` | Record a task result for pattern analysis. |
 | `recordSkillOutcome` | Record whether a skill execution was successful. |
 | `recoverItems` | Recover dropped items or inspect and update death-recovery records. |
 | `remember` | Store a value in persistent memory. |
+| `renameItem` | Rename an item at an anvil. |
+| `repairItem` | Repair an item at an anvil using materials. |
 | `rest` | Wait for a specified duration. |
+| `retrieveFromBrewingStand` | Retrieve potions from a brewing stand. |
 | `retrieveItemsFromNearbyFurnace` | Retrieve output items from a nearby furnace. |
 | `returnToLastDeathLocation` | Navigate back to where the bot last died and attempt to pick up dropped items. |
 | `runAway` | Run away from nearby threats. |
@@ -156,7 +180,13 @@ On the pinned runtime, ten tool groups fail to register. The startup logs report
 | `suggestCurriculum` | Suggest tasks based on bot state, saved skills, and recorded outcomes. |
 | `suggestNextGoals` | Suggest goals whose prerequisites match the bot's inventory. |
 | `swimToLand` | Navigate to the nearest land when in water. |
+| `tameAnimal` | Tame a wolf, cat, horse, or other tameable animal. |
+| `throwEyeOfEnder` | Throw an Eye of Ender to help locate a stronghold. |
+| `tradeWithVillager` | Trade with a villager. |
+| `triangulateStronghold` | Estimate a stronghold's position from multiple Eye of Ender throws. |
 | `updateGoal` | Update a goal's progress, status, or details. |
+| `useItemOnBlockOrEntity` | Activate a block at coordinates or interact with a player entity. |
+| `usePortal` | Enter a Nether or End portal to travel between dimensions. |
 | `whatCanICraft` | List all items that can be crafted from your current inventory. |
 | `withdrawItemsFromNearbyChest` | Withdraw items from a nearby chest. |
 
@@ -176,7 +206,7 @@ npm test
 
 The offline Vitest suite has 1,259 tests across 57 files. It covers configuration, bot services, and local integration workflows with mocked bots. The type check also covers the chat and whisper response types.
 
-The [CI workflow](.github/workflows/ci.yml) runs these checks, builds the project, and checks the MCP handshake. Live Minecraft gameplay requires a separate server test.
+The [CI workflow](.github/workflows/ci.yml) runs these checks, builds the project, and checks the MCP handshake and tool registration. Live Minecraft gameplay requires a separate server test.
 
 ## License
 

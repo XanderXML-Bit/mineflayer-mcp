@@ -11,7 +11,8 @@ import { createEquipmentService } from '../../services/equipment.service.js';
 import { configureMovements, waitForNavigation } from '../../services/navigation.service.js';
 import { isWaterLike, isPlantObstruction } from '../../utils/block-helpers.js';
 
-import { goals } from 'mineflayer-pathfinder';
+import pathfinderPkg from 'mineflayer-pathfinder';
+const { goals } = pathfinderPkg;
 
 const InputSchema = BaseInputSchema.extend({
   radius: z.number().optional().default(3).describe('Radius to search for tillable dirt'),

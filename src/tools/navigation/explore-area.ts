@@ -89,7 +89,8 @@ export class ExploreAreaTool extends BaseTool<Input, Output> {
       const poisFound: string[] = [];
 
       try {
-        const { goals } = await import('mineflayer-pathfinder');
+        const { default: pathfinderPkg } = await import('mineflayer-pathfinder');
+        const { goals } = pathfinderPkg;
 
         // Mark starting chunk
         markExplored(bot);

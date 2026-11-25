@@ -82,7 +82,8 @@ export class GoHomeTool extends BaseTool<Input, Output> {
     // Navigate using pathfinder
     return withTask(bot, async () => {
       try {
-        const { goals } = await import('mineflayer-pathfinder');
+        const { default: pathfinderPkg } = await import('mineflayer-pathfinder');
+        const { goals } = pathfinderPkg;
         const goal = new goals.GoalNear(
           home.position.x,
           home.position.y,

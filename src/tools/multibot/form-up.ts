@@ -8,7 +8,8 @@ import type { Bot } from 'mineflayer';
 import { BaseTool, BaseInputSchema } from '../base-tool.js';
 import { withTask } from '../../services/task.service.js';
 import { configureMovements } from '../../services/navigation.service.js';
-import { goals } from 'mineflayer-pathfinder';
+import pathfinderPkg from 'mineflayer-pathfinder';
+const { goals } = pathfinderPkg;
 
 const InputSchema = BaseInputSchema.extend({
   x: z.number().optional().describe('X coordinate to gather at (default: current bot position)'),

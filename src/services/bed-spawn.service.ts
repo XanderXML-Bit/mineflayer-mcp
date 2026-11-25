@@ -413,7 +413,8 @@ export async function goToBed(bot: Bot): Promise<{ success: boolean; bed?: BedLo
   }
 
   try {
-    const { goals } = await import('mineflayer-pathfinder');
+    const { default: pathfinderPkg } = await import('mineflayer-pathfinder');
+    const { goals } = pathfinderPkg;
     const goal = new goals.GoalNear(bed.position.x, bed.position.y, bed.position.z, 2);
     bot.pathfinder.setGoal(goal);
 
@@ -446,7 +447,8 @@ export async function goToSpawnPoint(bot: Bot): Promise<{ success: boolean; spaw
   }
 
   try {
-    const { goals } = await import('mineflayer-pathfinder');
+    const { default: pathfinderPkg } = await import('mineflayer-pathfinder');
+    const { goals } = pathfinderPkg;
     const goal = new goals.GoalNear(spawn.position.x, spawn.position.y, spawn.position.z, 2);
     bot.pathfinder.setGoal(goal);
 

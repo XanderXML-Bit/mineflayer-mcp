@@ -11,7 +11,8 @@ import { createEquipmentService } from '../../services/equipment.service.js';
 import { configureMovements } from '../../services/navigation.service.js';
 
 import type { Block } from 'prismarine-block';
-import { goals } from 'mineflayer-pathfinder';
+import pathfinderPkg from 'mineflayer-pathfinder';
+const { goals } = pathfinderPkg;
 
 /** Block with liquid property */
 interface BlockWithLiquid extends Block {

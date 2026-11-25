@@ -27,9 +27,11 @@ vi.mock('../../../src/services/task.service.js', () => ({
 
 // Mock mineflayer-pathfinder
 vi.mock('mineflayer-pathfinder', () => ({
-  goals: {
-    GoalNear: class GoalNear {
-      constructor(public x: number, public y: number, public z: number, public range: number) {}
+  default: {
+    goals: {
+      GoalNear: class GoalNear {
+        constructor(public x: number, public y: number, public z: number, public range: number) {}
+      },
     },
   },
 }));
