@@ -15,9 +15,27 @@ import {  createToolRegistry } from '../../src/tools/registry.js';
 import { createConnectionTools } from '../../src/tools/connection/index.js';
 import { createObservationTools } from '../../src/tools/observation/index.js';
 import { createCommunicationTools } from '../../src/tools/communication/index.js';
+import { AssignRoleTool } from '../../src/tools/multibot/assign-role.js';
 import { createUtilityTools } from '../../src/tools/utility/index.js';
 
 describe('Multi-Bot Integration', () => {
+  describe('assignBotRole priority', () => {
+    const schema = new AssignRoleTool(createTestContext()).inputSchema;
+    const input = { botName: 'Miner', role: 'miner' };
+
+    it.each([1, 10])('accepts boundary priority %s', (priority) => {
+      expect(schema.parse({ ...input, priority }).priority).toBe(priority);
+    });
+
+    it.each([0, 11, 5.5])('rejects invalid priority %s', (priority) => {
+      expect(schema.safeParse({ ...input, priority }).success).toBe(false);
+    });
+
+    it('defaults to priority 1', () => {
+      expect(schema.parse(input).priority).toBe(1);
+    });
+  });
+
   describe('targeting specific bots', () => {
     it('should execute tool on specific bot by username', async () => {
       const bot1 = createMockBot('Alice');
