@@ -1,202 +1,47 @@
-# Multi-Bot Usage
+# Multiple bots
 
-This guide demonstrates how to manage multiple bots simultaneously.
+One MCP server process can manage multiple bot connections. Use distinct usernames on a Minecraft server you own or are authorized to use.
 
-## Connecting Multiple Bots
+## Connect two bots
+
+Send one `joinGame` call per bot. These examples use a local Minecraft server.
 
 ```json
-// Connect first bot
-{
-  "tool": "joinGame",
-  "input": {
-    "username": "Miner",
-    "host": "localhost"
-  }
-}
-
-// Connect second bot
-{
-  "tool": "joinGame",
-  "input": {
-    "username": "Builder",
-    "host": "localhost"
-  }
-}
-
-// Connect third bot
-{
-  "tool": "joinGame",
-  "input": {
-    "username": "Guard",
-    "host": "localhost"
-  }
-}
+{"name":"joinGame","arguments":{"username":"Miner","host":"localhost","port":25565}}
 ```
 
-## Targeting Specific Bots
-
-When multiple bots are connected, you **must** specify the `username` parameter:
-
 ```json
-// Send Miner to mine iron
-{
-  "tool": "mineResource",
-  "input": {
-    "username": "Miner",
-    "blockName": "iron_ore",
-    "count": 32
-  }
-}
-
-// Send Builder to a build location
-{
-  "tool": "goToKnownLocation",
-  "input": {
-    "username": "Builder",
-    "x": 100,
-    "y": 64,
-    "z": 100
-  }
-}
-
-// Have Guard follow a player
-{
-  "tool": "followPlayer",
-  "input": {
-    "username": "Guard",
-    "playerName": "Steve"
-  }
-}
+{"name":"joinGame","arguments":{"username":"Builder","host":"localhost","port":25565}}
 ```
 
-## Getting Status of Each Bot
+## Select a bot
+
+Pass the bot's `username` in calls that act on it. The [bot manager](../../src/bot/bot-manager.ts) selects the first active bot when you omit the username.
 
 ```json
-// Check Miner's position
-{
-  "tool": "getPosition",
-  "input": {
-    "username": "Miner"
-  }
-}
-
-// Check Builder's inventory
-{
-  "tool": "listInventory",
-  "input": {
-    "username": "Builder"
-  }
-}
-
-// Check Guard's surroundings
-{
-  "tool": "lookAround",
-  "input": {
-    "username": "Guard"
-  }
-}
+{"name":"getPosition","arguments":{"username":"Miner"}}
 ```
 
-## Stopping All Tasks
-
-Stop tasks on all bots at once:
-
 ```json
-{
-  "tool": "stopAllTasks",
-  "input": {
-    "stopAll": true
-  }
-}
+{"name":"listInventory","arguments":{"username":"Builder"}}
 ```
 
-Stop tasks on a specific bot:
+## Stop tasks or disconnect
+
+Call `stopAllTasks` with a username to stop that bot's navigation and current foreground task. Set `stopAll` to `true` to apply it to every active bot.
 
 ```json
-{
-  "tool": "stopAllTasks",
-  "input": {
-    "username": "Miner"
-  }
-}
+{"name":"stopAllTasks","arguments":{"stopAll":true}}
 ```
 
-## Coordinated Actions
-
-Example: Have bots work together
+Call `leaveGame` with a username to disconnect that bot.
 
 ```json
-// 1. Miner collects resources
-{
-  "tool": "mineResource",
-  "input": {
-    "username": "Miner",
-    "blockName": "cobblestone",
-    "count": 64
-  }
-}
-
-// 2. Miner gives items to Builder
-{
-  "tool": "giveItemToSomeone",
-  "input": {
-    "username": "Miner",
-    "targetPlayer": "Builder",
-    "itemName": "cobblestone",
-    "count": 64
-  }
-}
-
-// 3. Builder constructs something
-{
-  "tool": "buildSomething",
-  "input": {
-    "username": "Builder",
-    "description": "a small cobblestone house"
-  }
-}
+{"name":"leaveGame","arguments":{"username":"Builder"}}
 ```
 
-## Disconnecting Bots
-
-Disconnect one bot:
+Set `all` to `true` to disconnect every active bot.
 
 ```json
-{
-  "tool": "leaveGame",
-  "input": {
-    "username": "Guard"
-  }
-}
-```
-
-Disconnect all bots:
-
-```json
-{
-  "tool": "leaveGame",
-  "input": {
-    "all": true
-  }
-}
-```
-
-## Error: Username Required
-
-When multiple bots are active, omitting `username` returns an error:
-
-```json
-// This will fail with multiple bots
-{
-  "tool": "getPosition",
-  "input": {}
-}
-```
-
-Response:
-```json
-{
-  "ok": false,
-  "error": "Multiple bots active, specify username"
-}
+{"name":"leaveGame","arguments":{"all":true}}
 ```

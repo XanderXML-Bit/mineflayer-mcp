@@ -1,246 +1,91 @@
-# Basic Usage Examples
+# Basic usage
 
-This guide shows common usage patterns for the Minecraft MCP server.
+[Connect an MCP client](../../README.md#connect-an-mcp-client) before calling tools. The JSON blocks below are parameters for the MCP `tools/call` request.
 
-## Connecting a Bot
+## Connect a bot
 
-**Username requirements:**
-- 3-16 characters
-- Only letters, numbers, and underscores allowed
-- Examples: `MyBot`, `Bot_123`, `MiningBot1`
+Use a server you own or are authorized to use. Replace the example host and port with the server's address. The username must contain three to 16 letters, digits, or underscores.
 
 ```json
-{
-  "tool": "joinGame",
-  "input": {
-    "username": "MyBot",
-    "host": "localhost",
-    "port": 25565
-  }
-}
+{"name":"joinGame","arguments":{"username":"MyBot","host":"localhost","port":25565}}
 ```
 
-Response:
-```json
-{
-  "ok": true,
-  "data": {
-    "username": "MyBot",
-    "host": "localhost",
-    "port": 25565,
-    "version": "1.20.4",
-    "gameMode": "survival"
-  },
-  "bot": "MyBot",
-  "status": {
-    "health": 20,
-    "food": 20,
-    "position": { "x": 0, "y": 64, "z": 0 }
-  }
-}
-```
+The server returns the tool result as JSON inside a text content item. Check `ok` before using `data`. For a successful connection, `data` includes the bot's username, server address, Minecraft version, and game mode.
 
-## Getting Bot Position
+## Inspect the world and move
+
+Read the bot's coordinates with `getPosition`.
 
 ```json
-{
-  "tool": "getPosition",
-  "input": {
-    "username": "MyBot"
-  }
-}
+{"name":"getPosition","arguments":{"username":"MyBot"}}
 ```
 
-Response:
-```json
-{
-  "ok": true,
-  "data": {
-    "position": {
-      "x": 100.5,
-      "y": 64.0,
-      "z": -50.3
-    }
-  },
-  "bot": "MyBot",
-  "status": { ... }
-}
-```
-
-## Looking Around
-
-Get environment information:
+Scan nearby blocks, entities, and dropped items with `scanArea`.
 
 ```json
-{
-  "tool": "lookAround",
-  "input": {
-    "username": "MyBot"
-  }
-}
+{"name":"scanArea","arguments":{"username":"MyBot","radius":6}}
 ```
 
-## Sending Chat Messages
+Replace the coordinates below with a reachable location. Set `noBlockBreaking` to keep pathfinding from digging through blocks.
 
 ```json
-{
-  "tool": "sendChat",
-  "input": {
-    "username": "MyBot",
-    "message": "Hello, world!"
-  }
-}
+{"name":"goToKnownLocation","arguments":{"username":"MyBot","x":100,"y":64,"z":-200,"noBlockBreaking":true}}
 ```
 
-## Movement
-
-### Go to a Location
+To follow a player, pass that player's username as `playerName`.
 
 ```json
-{
-  "tool": "goToKnownLocation",
-  "input": {
-    "username": "MyBot",
-    "x": 100,
-    "y": 64,
-    "z": -200
-  }
-}
+{"name":"followPlayer","arguments":{"username":"MyBot","playerName":"Steve"}}
 ```
 
-### Follow a Player
+Call `stopFollow` with the bot's username to stop following.
+
+## Send chat
+
+Use `sendChat` to send a message from the selected bot.
 
 ```json
-{
-  "tool": "followPlayer",
-  "input": {
-    "username": "MyBot",
-    "playerName": "Steve"
-  }
-}
+{"name":"sendChat","arguments":{"username":"MyBot","message":"Hello from MyBot"}}
 ```
 
-### Stop Following
+## Mine and craft
+
+Use `mineResource` with a block name. The bot needs a suitable tool for blocks such as iron ore.
 
 ```json
-{
-  "tool": "stopFollow",
-  "input": {
-    "username": "MyBot"
-  }
-}
+{"name":"mineResource","arguments":{"username":"MyBot","blockName":"iron_ore","count":10}}
 ```
 
-## Mining Resources
+Use `listRecipes` to check the ingredients before asking the bot to craft an item.
 
 ```json
-{
-  "tool": "mineResource",
-  "input": {
-    "username": "MyBot",
-    "blockName": "iron_ore",
-    "count": 10
-  }
-}
+{"name":"listRecipes","arguments":{"username":"MyBot","itemName":"iron_pickaxe"}}
 ```
 
-## Crafting Items
-
-### List Available Recipes
+Once you have the ingredients and a nearby crafting table, call `craftItems`.
 
 ```json
-{
-  "tool": "listRecipes",
-  "input": {
-    "username": "MyBot",
-    "itemName": "iron_pickaxe"
-  }
-}
+{"name":"craftItems","arguments":{"username":"MyBot","itemName":"iron_pickaxe","count":1}}
 ```
 
-### Craft an Item
+Use `listInventory` to check that the item is present. Call `equipItem` to move it to the bot's hand.
 
 ```json
-{
-  "tool": "craftItems",
-  "input": {
-    "username": "MyBot",
-    "itemName": "iron_pickaxe",
-    "count": 1
-  }
-}
+{"name":"equipItem","arguments":{"username":"MyBot","itemName":"iron_pickaxe","destination":"hand"}}
 ```
 
-## Inventory Management
+## Stop tasks and disconnect
 
-### List Inventory
+Use `stopAllTasks` to stop navigation or abort the bot's current foreground task.
 
 ```json
-{
-  "tool": "listInventory",
-  "input": {
-    "username": "MyBot"
-  }
-}
+{"name":"stopAllTasks","arguments":{"username":"MyBot"}}
 ```
 
-### Equip an Item
+To disconnect the bot, call `leaveGame`.
 
 ```json
-{
-  "tool": "equipItem",
-  "input": {
-    "username": "MyBot",
-    "itemName": "iron_pickaxe",
-    "destination": "hand"
-  }
-}
+{"name":"leaveGame","arguments":{"username":"MyBot"}}
 ```
 
-## Stopping Tasks
-
-Stop all running tasks (navigation, combat, etc.):
-
-```json
-{
-  "tool": "stopAllTasks",
-  "input": {
-    "username": "MyBot"
-  }
-}
-```
-
-Stop tasks for all bots:
-
-```json
-{
-  "tool": "stopAllTasks",
-  "input": {
-    "stopAll": true
-  }
-}
-```
-
-## Disconnecting
-
-Disconnect a specific bot:
-
-```json
-{
-  "tool": "leaveGame",
-  "input": {
-    "username": "MyBot"
-  }
-}
-```
-
-Disconnect all bots:
-
-```json
-{
-  "tool": "leaveGame",
-  "input": {
-    "all": true
-  }
-}
-```
+See [Multiple bots](multi-bot.md) for commands that target more than one bot.
