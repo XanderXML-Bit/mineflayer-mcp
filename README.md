@@ -94,7 +94,7 @@ On the pinned runtime, ten tool groups fail to register. The startup logs report
 | `forget` | Delete a specific memory by key. |
 | `gatherSeeds` | Break grass to gather wheat seeds. |
 | `getCurrentBiome` | Get information about the biome at current location. |
-| `getEvents` | Get recent events that occurred (damage, chat, pickups, etc.). |
+| `getEvents` | Read recent bot events, including damage, chat, and pickups. |
 | `getExplorationMap` | Show a grid of explored and unexplored chunks. |
 | `getHomeInfo` | Get information about saved home locations including distance and reachability. |
 | `getInsights` | Summarize patterns, warnings, and tips from recorded task outcomes. |
@@ -103,7 +103,7 @@ On the pinned runtime, ten tool groups fail to register. The startup logs report
 | `getSkillDetails` | Show the steps and metadata for a saved skill. |
 | `getSkills` | Search for relevant skills by query, tags, or category. |
 | `getSkillStats` | Summarize the skills in the library and how often they are used. |
-| `getStorageSummary` | Get summary of all indexed storage: total locations, items across all storage, and recently scanned containers. |
+| `getStorageSummary` | Summarize indexed locations, stored items, and recently scanned containers. |
 | `getWorldState` | Inspect time, weather, biome, dimension, light level, and nearby danger. |
 | `giveItemToSomeone` | Give an item to another player. |
 | `goHome` | Navigate to a saved home location. |
@@ -151,7 +151,7 @@ On the pinned runtime, ten tool groups fail to register. The startup logs report
 | `smeltItem` | Smelt items using the best available device. |
 | `smeltWithBlastFurnace` | Smelt ores using a blast furnace. |
 | `statusDashboard` | Summarize bot health, environment, threats, resources, and goals. |
-| `stopAllTasks` | Stop all running tasks (navigation, combat, etc.) for the bot. |
+| `stopAllTasks` | Stop navigation, combat, and the current task for one bot or all bots. |
 | `stopFollow` | Stop following a player. |
 | `suggestCurriculum` | Suggest tasks based on bot state, saved skills, and recorded outcomes. |
 | `suggestNextGoals` | Suggest goals whose prerequisites match the bot's inventory. |
