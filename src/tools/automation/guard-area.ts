@@ -8,7 +8,8 @@ import type { Bot } from 'mineflayer';
 import { BaseTool, BaseInputSchema } from '../base-tool.js';
 import { withTask } from '../../services/task.service.js';
 import { configureMovements } from '../../services/navigation.service.js';
-import { goals } from 'mineflayer-pathfinder';
+import pathfinderPkg from 'mineflayer-pathfinder';
+const { goals } = pathfinderPkg;
 
 const InputSchema = BaseInputSchema.extend({
   radius: z.number().optional().default(20).describe('Radius of the area to guard'),

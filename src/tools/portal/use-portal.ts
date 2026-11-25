@@ -7,8 +7,10 @@ import { z } from 'zod';
 import type { Bot } from 'mineflayer';
 import { BaseTool, BaseInputSchema } from '../base-tool.js';
 import { withTask } from '../../services/task.service.js';
-import { goals } from 'mineflayer-pathfinder';
+import pathfinderPkg from 'mineflayer-pathfinder';
 import mcData from 'minecraft-data';
+
+const { goals } = pathfinderPkg;
 
 /** Bot game with dimension */
 interface GameWithDimension {

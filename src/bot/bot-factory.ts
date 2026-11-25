@@ -28,7 +28,7 @@ import { logger } from '../utils/logger.js';
 const log = logger.child('bot-factory');
 
 // Handle CJS interop for plugins
-const pathfinder = (pathfinderPkg as { pathfinder: (bot: Bot) => void }).pathfinder;
+const { goals, pathfinder } = pathfinderPkg;
 
 /**
  * Load plugins into a bot
@@ -260,7 +260,6 @@ function setupAutoCollect(bot: Bot, config: AppConfig): void {
       for (const item of items) {
         if (!item.position) continue;
         try {
-          const { goals } = await import('mineflayer-pathfinder');
           const goal = new goals.GoalNear(
             item.position.x,
             item.position.y,
@@ -388,7 +387,6 @@ function setupAutoRetreat(bot: Bot, config: AppConfig): void {
           const targetZ = bot.entity.position.z + (dz / len) * retreatConfig.retreatDistance;
 
           try {
-            const { goals } = await import('mineflayer-pathfinder');
             const goal = new goals.GoalNear(targetX, bot.entity.position.y, targetZ, 2);
             await bot.pathfinder?.goto(goal);
           } catch {
@@ -581,7 +579,6 @@ function setupAutoPosition(bot: Bot, _config: AppConfig): void {
             blockAboveNewPos.name === 'air'
           ) {
             try {
-              const { goals } = await import('mineflayer-pathfinder');
               const goal = new goals.GoalNear(newPos.x, newPos.y, newPos.z, 0.5);
               await bot.pathfinder?.goto(goal);
               break;

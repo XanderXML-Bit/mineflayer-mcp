@@ -11,7 +11,8 @@ import { withTask } from '../../services/task.service.js';
 import { createEquipmentService } from '../../services/equipment.service.js';
 import { configureMovements } from '../../services/navigation.service.js';
 
-import { goals } from 'mineflayer-pathfinder';
+import pathfinderPkg from 'mineflayer-pathfinder';
+const { goals } = pathfinderPkg;
 
 const InputSchema = BaseInputSchema.extend({
   x: z.number().describe('X coordinate'),

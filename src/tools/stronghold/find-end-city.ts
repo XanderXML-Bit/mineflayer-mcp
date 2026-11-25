@@ -10,7 +10,8 @@ import { withTask } from '../../services/task.service.js';
 import { configureMovements } from '../../services/navigation.service.js';
 import mcData from 'minecraft-data';
 
-import { goals } from 'mineflayer-pathfinder';
+import pathfinderPkg from 'mineflayer-pathfinder';
+const { goals } = pathfinderPkg;
 
 /** Bot game with dimension */
 interface GameWithDimension {

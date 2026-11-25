@@ -8,7 +8,8 @@ import type { Bot } from 'mineflayer';
 import { BaseTool, BaseInputSchema } from '../base-tool.js';
 import { withTask } from '../../services/task.service.js';
 import mcData from 'minecraft-data';
-import { goals } from 'mineflayer-pathfinder';
+import pathfinderPkg from 'mineflayer-pathfinder';
+const { goals } = pathfinderPkg;
 
 /** Enchantment option from enchanting table window */
 interface EnchantmentOption {

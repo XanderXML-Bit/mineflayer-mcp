@@ -9,8 +9,10 @@ import type { Block } from 'prismarine-block';
 import type { Item } from 'prismarine-item';
 import { BaseTool, BaseInputSchema } from '../base-tool.js';
 import { withTask } from '../../services/task.service.js';
-import { goals } from 'mineflayer-pathfinder';
+import pathfinderPkg from 'mineflayer-pathfinder';
 import mcData from 'minecraft-data';
+
+const { goals } = pathfinderPkg;
 
 /** Bot with anvil methods */
 type BotWithAnvil = Bot & {

@@ -254,7 +254,8 @@ async function fleeToSafety(bot: Bot, config: SmartEatConfig): Promise<boolean> 
     if (pathfinder && typeof pathfinder.goto === 'function') {
       // Use pathfinder for smarter navigation
       try {
-        const { goals } = await import('mineflayer-pathfinder');
+        const { default: pathfinderPkg } = await import('mineflayer-pathfinder');
+        const { goals } = pathfinderPkg;
         const goal = new goals.GoalNear(targetX, bot.entity.position.y, targetZ, 2);
 
         await Promise.race([
